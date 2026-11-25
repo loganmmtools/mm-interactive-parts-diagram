@@ -1,0 +1,512 @@
+[
+  {
+    "figure": 3,
+    "sku": "633207-00",
+    "name": "Pin \u2013 Bostitch",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/633207-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-pin-633207-00",
+    "description": "Replacement pin for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 4,
+    "sku": "330019-05",
+    "name": "Screw (M4 x 12)",
+    "price": 5.29,
+    "stock": true,
+    "photo": "/parts/330019-05.jpg",
+    "url": "https://2f50f72512.nxcli.io/tool-parts/dewalt-parts/dewalt-drill-parts/330019-05-screw-plastite-m3-63x25-t15-dewaltr",
+    "description": "Demonstration figure mapping. Verify the manufacturer parts list before ordering."
+  },
+  {
+    "figure": 6,
+    "sku": "646666-00",
+    "name": "(OBSOLETE) Nosepiece Assembly \u2013 DeWALT",
+    "price": 63.5,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/dewalt-nosepiece-assy-646666-00",
+    "description": "Replacement (obsolete) nosepiece assembly for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 7,
+    "sku": "N010050",
+    "name": "Control Module \u2013 DeWALT (OBSOLETE)",
+    "price": 54.02,
+    "stock": true,
+    "photo": "/parts/N010050.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-control-module-n010050",
+    "description": "Replacement control module for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 9,
+    "sku": "637597-00",
+    "name": "Contact Trip \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/637597-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-contact-trip-637597-00",
+    "description": "Replacement contact trip for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 10,
+    "sku": "637596-00",
+    "name": "Depth Adjust Knob \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/637596-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/637596-00-depth-adjust-knob-dewaltr",
+    "description": "Replacement depth adjust knob for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 12,
+    "sku": "326467-00",
+    "name": "Detent \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/326467-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/326467-00-detent-dewaltr",
+    "description": "Replacement detent for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 13,
+    "sku": "DEMO-BRG-1",
+    "name": "Ball Bearing \u2013 Open",
+    "price": 8.45,
+    "stock": true,
+    "photo": "",
+    "url": "",
+    "description": "Demonstration match only. Confirm the required bearing specification; these are not asserted to be interchangeable."
+  },
+  {
+    "figure": 13,
+    "sku": "DEMO-BRG-2",
+    "name": "Ball Bearing \u2013 Shielded",
+    "price": 11.25,
+    "stock": true,
+    "photo": "",
+    "url": "",
+    "description": "Demonstration match only. Confirm the required bearing specification; these are not asserted to be interchangeable."
+  },
+  {
+    "figure": 15,
+    "sku": "N009890",
+    "name": "Cover \u2013 DeWALT",
+    "price": 3.79,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/dewalt-cover-n009890",
+    "description": "Replacement cover for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 16,
+    "sku": "613619-03",
+    "name": "Thread Forming Screw \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/613619-03.jpg",
+    "url": "https://2f50f72512.nxcli.io/613619-03-thread-forming-screw-m4-x-10-t20-dewaltr",
+    "description": "Replacement thread forming screw for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 17,
+    "sku": "638317-00",
+    "name": "Linkage \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/638317-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/638317-00-linkage-dewaltr",
+    "description": "Replacement linkage for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 18,
+    "sku": "639070-00",
+    "name": "Hub \u2013 DeWALT",
+    "price": 5.29,
+    "stock": true,
+    "photo": "/parts/639070-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-hub-639070-00",
+    "description": "Replacement hub for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 19,
+    "sku": "639246-00",
+    "name": "Linkage \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/639246-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/639246-00-linkage-contact-trip-dewaltr",
+    "description": "Replacement linkage for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 20,
+    "sku": "639247-00",
+    "name": "Spring \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/639247-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/639247-00-spring-dewaltr",
+    "description": "Replacement spring for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 25,
+    "sku": "651644-00",
+    "name": "Washer \u2013 DeWALT",
+    "price": 3.79,
+    "stock": true,
+    "photo": "/parts/651644-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/tool-parts/dewalt-parts/dewalt-nailer-parts/dc608-1-parts/dewalt-washer-651644-00",
+    "description": "Replacement washer for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 26,
+    "sku": "330045-69",
+    "name": "Thread Forming Screw \u2013 DeWalt",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/330045-69.jpg",
+    "url": "https://2f50f72512.nxcli.io/330045-69-thread-forming-screw-m4-x-10mm-t20-dewaltr",
+    "description": "Replacement thread forming screw for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 27,
+    "sku": "398218-00",
+    "name": "Washer \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/398218-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/398218-00-washer-plain-4x8-dewaltr",
+    "description": "Replacement washer for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 28,
+    "sku": "631987-00",
+    "name": "Flywheel \u2013 DeWALT",
+    "price": 20.6,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/631987-00-flywheel-dewaltr",
+    "description": "Replacement flywheel for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 32,
+    "sku": "330041-61",
+    "name": "Roller Pin \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/330041-61-roller-pin-3mm-x-53mm-dewaltr",
+    "description": "Replacement roller pin for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 38,
+    "sku": "395505-00",
+    "name": "Bushing \u2013 Bostitch",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/395505-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/395505-00-bushing-dewaltr",
+    "description": "Replacement bushing for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 34,
+    "sku": "098197-03",
+    "name": "Lock Washer \u2013 DeWalt",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/098197-03.jpg",
+    "url": "https://2f50f72512.nxcli.io/098197-03-lock-washer-m4-dewaltr",
+    "description": "Replacement lock washer for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 36,
+    "sku": "653099-00",
+    "name": "Cprsn Spring \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/653099-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/653099-00-compression-spring-dewaltr",
+    "description": "Replacement cprsn spring for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 37,
+    "sku": "639696-00",
+    "name": "Connector \u2013 DeWALT",
+    "price": 3.79,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/dewalt-connector-639696-00",
+    "description": "Replacement connector for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 40,
+    "sku": "395093-00",
+    "name": "Cover/latch \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/395093-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/395093-00-cover-latch-dewaltr",
+    "description": "Replacement cover/latch for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 42,
+    "sku": "609932-01",
+    "name": "Screw \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/609932-01.jpg",
+    "url": "https://2f50f72512.nxcli.io/609932-01-screw-m5x-8x16-w-loctite-dewaltr",
+    "description": "Replacement screw for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 44,
+    "sku": "613619-02",
+    "name": "Thread Forming Screw \u2013 DeWALT",
+    "price": 3.79,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/613619-02-thread-forming-screw-m4-x-8-dewaltr",
+    "description": "Replacement thread forming screw for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 46,
+    "sku": "392206-00",
+    "name": "Clip \u2013 Bostitch",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/392206-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/392206-00-clip-dewaltr",
+    "description": "Replacement clip for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 48,
+    "sku": "330036-24",
+    "name": "Roll Pin \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/330036-24.jpg",
+    "url": "https://2f50f72512.nxcli.io/330036-24-roll-pin-22mm-dewaltr",
+    "description": "Replacement roll pin for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 49,
+    "sku": "330036-22",
+    "name": "Roll Pin \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/330036-22-roll-pin-3x36mm-dewaltr",
+    "description": "Replacement roll pin for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 50,
+    "sku": "N391356",
+    "name": "Power Take-off Assy. \u2013 DeWALT",
+    "price": 73.3,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/n391356-power-take-off-assy-dewaltr",
+    "description": "Replacement power take-off assy. for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 52,
+    "sku": "648060-00",
+    "name": "Clamshell Set \u2013 DeWALT",
+    "price": 13.8,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/648060-00-clamshell-set-dewaltr",
+    "description": "Replacement clamshell set for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 56,
+    "sku": "644209-00",
+    "name": "Spring \u2013 DeWALT",
+    "price": 5.1,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/tool-parts/dewalt-parts/dewalt-nailer-parts/dc608-1-parts/dewalt-spring-644209-00",
+    "description": "Replacement spring for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 61,
+    "sku": "639123-00",
+    "name": "Cover \u2013 DeWALT",
+    "price": 14,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/dewalt-cover-639123-00",
+    "description": "Replacement cover for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 67,
+    "sku": "632383-00",
+    "name": "Label \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/632383-00-label-bump-seq-label-dewaltr",
+    "description": "Replacement label for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 69,
+    "sku": "330045-05",
+    "name": "Lock Screw \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/330045-05.jpg",
+    "url": "https://2f50f72512.nxcli.io/330045-05-lock-screw-m4x0-7x10-mtl-thdfmg-dewaltr",
+    "description": "Replacement lock screw for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 70,
+    "sku": "639189-00",
+    "name": "Compression Spring \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/639189-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/639189-00-compression-spring-dewaltr",
+    "description": "Replacement compression spring for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 71,
+    "sku": "639186-00",
+    "name": "Transmission Plate \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/639186-00-transmission-plate-dewaltr",
+    "description": "Replacement transmission plate for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 72,
+    "sku": "647713-00SV",
+    "name": "Idler Assembly \u2013 DeWALT",
+    "price": 41.71,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/647713-00sv-idler-assembly-dewaltr",
+    "description": "Replacement idler assembly for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 73,
+    "sku": "640444-00",
+    "name": "Rubber Wire Trap \u2013 DeWALT",
+    "price": 3.79,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/tool-parts/dewalt-parts/dewalt-nailer-parts/dc608-1-parts/dewalt-rubber-wire-trap-640444-00",
+    "description": "Replacement rubber wire trap for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 76,
+    "sku": "613619-00",
+    "name": "Screw,thd.form \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/613619-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-screw-thd-form-613619-00",
+    "description": "Replacement screw,thd.form for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 79,
+    "sku": "644205-00",
+    "name": "Spring Keeper \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/644205-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/644205-00-spring-keeper-dewaltr",
+    "description": "Replacement spring keeper for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 81,
+    "sku": "391814-00",
+    "name": "Grommet \u2013 Bostitch",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/391814-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/391814-00-grommet-dewaltr",
+    "description": "Replacement grommet for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 82,
+    "sku": "392243-00",
+    "name": "Band \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/392243-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-band-392243-00",
+    "description": "Replacement band for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 84,
+    "sku": "330016-26",
+    "name": "Washer, Plain \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/330016-26.jpg",
+    "url": "https://2f50f72512.nxcli.io/dewalt-washer-plain-330016-26",
+    "description": "Replacement washer, plain for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 85,
+    "sku": "330016-25",
+    "name": "Plain Washer \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/330016-25.jpg",
+    "url": "https://2f50f72512.nxcli.io/330016-25-plain-washer-8-25x4-25x-607-dewaltr",
+    "description": "Replacement plain washer for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 87,
+    "sku": "645151-00",
+    "name": "Sleeve \u2013 DeWALT",
+    "price": 3.79,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/tool-parts/dewalt-parts/dewalt-nailer-parts/dc608-1-parts/645151-00-sleeve-dewaltr",
+    "description": "Replacement sleeve for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 88,
+    "sku": "624913-00",
+    "name": "Disc \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/624913-00-disc-foam-dewaltr",
+    "description": "Replacement disc for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 89,
+    "sku": "392242-00",
+    "name": "Stop \u2013 DeWALT",
+    "price": 5.85,
+    "stock": true,
+    "photo": "/parts/392242-00.jpg",
+    "url": "https://2f50f72512.nxcli.io/392242-00-stop-dewaltr",
+    "description": "Replacement stop for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 861,
+    "sku": "650354-00",
+    "name": "Kit Box \u2013 DeWALT",
+    "price": 39.63,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/dewalt-kit-box-650354-00",
+    "description": "Replacement kit box for the DC608 Type 1 model catalog."
+  },
+  {
+    "figure": 871,
+    "sku": "649164-00",
+    "name": "7.2v \u2013 18v Charger \u2013 DeWalt",
+    "price": 40.83,
+    "stock": true,
+    "photo": "",
+    "url": "https://2f50f72512.nxcli.io/649164-00-charger-dc9310-dewaltr",
+    "description": "Replacement 7.2v for the DC608 Type 1 model catalog."
+  }
+]
