@@ -228,7 +228,7 @@ h2 {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: #e81d27;
+  background: #FF1B23;
   color: #fff;
   border-radius: 6px;
   padding: 9px 10px;
@@ -237,6 +237,16 @@ h2 {
   letter-spacing: -0.5px;
   text-decoration: none !important;
 }
+.details-trigger { display: block; }
+.product-detail { position: fixed; margin: auto; inset: 0; width: min(390px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 20px; background: white; color: var(--ink); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 8px 36px #0003; font-size: 14px; }
+.product-detail::backdrop { background: #0006; }
+.product-detail[open] { display: grid; gap: 12px; }
+.detail-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.detail-heading small { display: block; margin-bottom: 5px; font-size: 11px; color: #535e68; letter-spacing: .04em; }
+.detail-heading button { padding: 3px; }
+.product-detail img { object-fit: contain; }
+.compatibility { background: #fff3d1; padding: 10px; border-radius: 4px; font-size: 13px; }
+.detail-status:empty { display: none; }
 .pdf-link:hover {
   background: #d41420;
 }

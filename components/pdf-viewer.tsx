@@ -7,6 +7,7 @@ import sheets from "@/lib/pages.json";
 import products from "@/lib/catalog.json";
 import { money, type Part } from "./catalog-shell";
 import { Stock, Buy } from "./parts-list";
+import { ProductDetails } from "./product-details";
 type Point = (typeof points)[number];
 type Actions = { add: (p: Part) => void; show: (p: Part) => void };
 const tip =
@@ -53,15 +54,7 @@ export function MultiplePartSelector({
             <b>{money(p.price)}</b>
           </div>
           <Buy p={p} add={add} />
-          <details>
-            <summary>Part details</summary>
-            <p>{p.description}</p>
-            {p.url && (
-              <a href={p.url} target="_blank" rel="noreferrer">
-                Source product details
-              </a>
-            )}
-          </details>
+          <ProductDetails p={p} add={add} />
           <button className="text-link" onClick={() => show(p)}>
             Show in parts list
           </button>
@@ -323,7 +316,7 @@ export function ResponsivePDFViewer({
       if (!(e.target as Element).closest(".figure-card,.hot")) setActive(null);
     };
     const esc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape" && !document.querySelector("dialog:modal")) close();
     };
     document.addEventListener("pointerdown", outside);
     document.addEventListener("keydown", esc);

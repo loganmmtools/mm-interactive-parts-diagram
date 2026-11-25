@@ -25,6 +25,10 @@ The supplied screenshots compress the portrait illustration horizontally into a 
 
 All prices and availability are demonstration values, not current offers. Figure 4 / #330019-05 and the two figure 13 bearing records are **requested UI test fixtures**, not manufacturer compatibility guidance. In the actual document, figure 4 is a return device (648024-00SV). The two sample bearings are not asserted to be interchangeable. Use the complete manufacturer list and exact make/model/type for identification. No orders are transmitted.
 
+## Product detail verification
+
+Each popover product has a **View full product details** button that opens a local, named modal. No product URL is needed. Checked the figure 4 screw (including its cached photo) and both distinct figure 13 bearing records. Each modal added only its own SKU to the simulated cart: one of each produced three lines totaling $24.99. Verified Escape returns focus to the triggering button without closing the figure card, Enter reopens it, and the explicit close button works. Computed colors were `#FF1B23` for the document CTA and `#FFB500` for the masthead. Production compilation and TypeScript passed after the final change.
+
 ## Verification
 
 - Production compilation and TypeScript checks passed.
