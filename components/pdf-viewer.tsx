@@ -1,27 +1,491 @@
-'use client'
-import {useEffect,useRef,useState} from 'react'
-import type {PDFDocumentProxy,RenderTask} from 'pdfjs-dist'
-import {Info,Minus,Plus,Maximize,X,ChevronDown} from 'lucide-react'
-import points from '@/lib/hotspots.json'
-import sheets from '@/lib/pages.json'
-import products from '@/lib/catalog.json'
-import {money,type Part} from './catalog-shell'
-import {Stock,Buy} from './parts-list'
-type Point=typeof points[number];type Actions={add:(p:Part)=>void;show:(p:Part)=>void}
-const tip='Highlight all interactive figure numbers in the diagram. Select a figure number to view its replacement part.'
-const clamp=(v:number,min:number,max:number)=>Math.max(min,Math.min(max,v))
-export function InteractiveHotspotLayer({active,all,select}:{active:number|null;all:boolean;select:(i:number)=>void}){return <div className={'hotspots '+(all?'outlined':'')}>{points.map((p,i)=><button key={i} className={'hot '+(i===active?'selected':'')} style={{left:`${p.x*100}%`,top:`${p.y*100}%`}} aria-label={`Figure ${p.figure}, view replacement parts`} aria-expanded={i===active} onClick={()=>select(i)}/>)}</div>}
-export function MultiplePartSelector({parts,add,show}:{parts:Part[]}&Actions){return <>{parts.map(p=><div className="match" key={p.sku}><strong>{p.name}</strong><div>Part # {p.sku}</div><div className="cost"><Stock p={p}/><b>{money(p.price)}</b></div><Buy p={p} add={add}/><details><summary>Part details</summary><p>{p.description}</p>{p.url&&<a href={p.url} target="_blank" rel="noreferrer">Source product details</a>}</details><button className="text-link" onClick={()=>show(p)}>Show in parts list</button></div>)}</>}
-export function FigureProductPopover({point,close,add,show,location}:{point:Point;close:()=>void;location:{x:number;y:number}}&Actions){const matches=products.filter(p=>point.productIds.includes(p.sku));return <div className="figure-card" style={{left:location.x,top:location.y}} role="dialog" aria-label={`Figure ${point.figure} details`}><div className="pop-title"><b>Figure {point.figure}{matches.length>1?' — Multiple Matching Parts':''}</b><button onClick={close} aria-label="Dismiss part details" autoFocus><X size={15}/></button></div>{matches.length>1&&<small>Check your exact model and type before choosing.</small>}<MultiplePartSelector parts={matches} add={add} show={show}/></div>}
-export function DiagramPageNavigation({page,set}:{page:number;set:(page:number)=>void}){return <nav className="thumbs" aria-label="Diagram pages">{sheets.map((_,i)=><button key={i} onClick={()=>set(i+1)} aria-label={`Diagram page ${i+1}`} aria-current={page===i+1?'page':undefined}><img src={`/diagrams/thumb-${i+1}.png`} alt=""/><b>{i+1}</b></button>)}</nav>}
-export function ViewerControls({all,toggle,adjust,fit,full}:{all:boolean;toggle:()=>void;adjust:(n:number)=>void;fit:(s:string)=>void;full:()=>void}){const [menu,setMenu]=useState(false);return <div className="viewer-tools"><label><input type="checkbox" checked={all} onChange={toggle}/>Highlight clickable parts</label><span className="info"><button aria-label={tip}><Info size={15}/></button><span role="tooltip">{tip}</span></span><div className="zoom-controls"><button aria-label="Zoom out" onClick={()=>adjust(-.25)}><Minus size={14}/></button><button aria-expanded={menu} onClick={()=>setMenu(!menu)}>Fit<span className="wide-label"> to View</span><ChevronDown size={11}/></button><button aria-label="Zoom in" onClick={()=>adjust(.25)}><Plus size={14}/></button>{menu&&<div className="fit-menu">{['Fit to Width','Fit to Page','Fullscreen'].map(s=><button key={s} onClick={()=>{setMenu(false);if(s==='Fullscreen')full();else fit(s)}}>{s==='Fullscreen'&&<Maximize size={13}/>} {s}</button>)}</div>}</div></div>}
-export function ResponsivePDFViewer({demo,add,show}:{demo:boolean}&Actions){const [doc,setDoc]=useState<PDFDocumentProxy|null>(null),[page,setPage]=useState(1),[dim,setDim]=useState({w:700,h:778}),[ready,setReady]=useState(false),[error,setError]=useState(false),[all,setAll]=useState(false),[active,setActive]=useState<number|null>(null),[zoom,setZoom]=useState(1),[pos,setPos]=useState({x:0,y:0}),[width,setWidth]=useState(0),[mode,setMode]=useState('Fit to Width'),[screen,setScreen]=useState(false),[vh,setVh]=useState(800),[loc,setLoc]=useState({x:8,y:8});const frame=useRef<HTMLDivElement>(null),root=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null),pointers=useRef(new Map<number,{x:number;y:number}>()),lastFocus=useRef<HTMLElement|null>(null);const meta=demo?sheets[page-1]:{x:0,y:0,w:1,h:1};const ratio=dim.w/dim.h;const baseWidth=mode==='Fit to Page'?Math.min(width,(vh-120)*ratio):width;const height=baseWidth/ratio;
-useEffect(()=>{let stopped=false;let task:ReturnType<typeof import('pdfjs-dist').getDocument>|undefined;setDoc(null);setPage(1);setReady(false);setError(false);setActive(null);setZoom(1);setPos({x:0,y:0});setDim(demo?{w:sheets[0].width,h:sheets[0].height}:{w:700,h:778});import('pdfjs-dist').then(async pdf=>{if(stopped)return;pdf.GlobalWorkerOptions.workerSrc='/diagrams/pdf.worker.min.mjs';task=pdf.getDocument({url:`/diagrams/${demo?'demo':'diagram'}.pdf`,isEvalSupported:false});const d=await task.promise;if(!stopped)setDoc(d)}).catch(()=>{if(!stopped)setError(true)});return()=>{stopped=true;void task?.destroy()}},[demo]);
-useEffect(()=>{const el=frame.current;if(!el)return;const resize=()=>{setWidth(el.clientWidth);setVh(window.innerHeight);setActive(null);setPos({x:0,y:0})};const ro=new ResizeObserver(resize);ro.observe(el);window.addEventListener('resize',resize);const fs=()=>{setScreen(Boolean(document.fullscreenElement));resize()};document.addEventListener('fullscreenchange',fs);resize();return()=>{ro.disconnect();window.removeEventListener('resize',resize);document.removeEventListener('fullscreenchange',fs)}},[]);
-useEffect(()=>{if(!doc||!baseWidth||!canvas.current)return;let stopped=false;let task:RenderTask|undefined;const el=canvas.current;doc.getPage(page).then(async p=>{if(stopped)return;const v=p.getViewport({scale:1,rotation:p.rotate});setDim(s=>s.w===v.width&&s.h===v.height?s:{w:v.width,h:v.height});const factor=Math.min(baseWidth*zoom*(window.devicePixelRatio||1)/v.width,4500/Math.max(v.width,v.height));const view=p.getViewport({scale:factor,rotation:p.rotate});const buffer=document.createElement('canvas');buffer.width=Math.ceil(view.width);buffer.height=Math.ceil(view.height);task=p.render({canvas:buffer,viewport:view});await task.promise;if(stopped)return;el.width=buffer.width;el.height=buffer.height;el.getContext('2d')?.drawImage(buffer,0,0);setReady(true);setError(false)}).catch(e=>{if(!stopped&&e.name!=='RenderingCancelledException'){setReady(false);setError(true)}});return()=>{stopped=true;task?.cancel()}},[doc,page,baseWidth,zoom]);
-function close(){setActive(null);lastFocus.current?.focus({preventScroll:true})}
-useEffect(()=>{if(active===null)return;const outside=(e:PointerEvent)=>{if(!(e.target as Element).closest('.figure-card,.hot'))setActive(null)};const esc=(e:KeyboardEvent)=>{if(e.key==='Escape')close()};document.addEventListener('pointerdown',outside);document.addEventListener('keydown',esc);return()=>{document.removeEventListener('pointerdown',outside);document.removeEventListener('keydown',esc)}},[active]);
-function reset(){setActive(null);setZoom(1);setPos({x:0,y:0})}
-function setScale(n:number){setActive(null);const z=clamp(n,1,4);setZoom(z);setPos(p=>({x:clamp(p.x,-baseWidth*(z-1),0),y:clamp(p.y,-height*(z-1),0)}))}
-function select(i:number){const el=frame.current!;const b=el.getBoundingClientRect();const target=el.querySelectorAll<HTMLButtonElement>('.hot')[i];lastFocus.current=target;const t=target.getBoundingClientRect();const h=points[i].productIds.length>1?410:212;setLoc({x:clamp(t.right-b.left+6,6,el.clientWidth-236),y:clamp(t.bottom-b.top+4,Math.max(6,-b.top+8),Math.min(el.clientHeight-h-6,window.innerHeight-b.top-h-8))});setActive(i)}
-return <div className={'viewer '+(screen?'fullscreen':'')} ref={root}>{demo&&<DiagramPageNavigation page={page} set={n=>{setReady(false);setPage(n);setDim({w:sheets[n-1].width,h:sheets[n-1].height});reset()}}/>}<div className="viewer-main"><ViewerControls all={all} toggle={()=>setAll(!all)} adjust={n=>setScale(zoom+n)} fit={s=>{setMode(s);reset()}} full={()=>{if(document.fullscreenElement)void document.exitFullscreen();else if(root.current?.requestFullscreen)void root.current.requestFullscreen().catch(()=>setScreen(!screen));else setScreen(!screen)}}/><div className="diagram-frame" ref={frame} style={{height:width?height:undefined,aspectRatio:ratio,touchAction:zoom>1?'none':'pan-y'}} onPointerDown={e=>{if((e.target as Element).closest('button,.figure-card'))return;pointers.current.set(e.pointerId,{x:e.clientX,y:e.clientY});e.currentTarget.setPointerCapture(e.pointerId)}} onPointerMove={e=>{const map=pointers.current;const old=map.get(e.pointerId);if(!old)return;const other=[...map].find(([id])=>id!==e.pointerId)?.[1];if(other){const dist=Math.hypot(old.x-other.x,old.y-other.y);if(dist)setScale(zoom*Math.hypot(e.clientX-other.x,e.clientY-other.y)/dist)}else if(zoom>1){setPos(p=>({x:clamp(p.x+e.clientX-old.x,-baseWidth*(zoom-1),0),y:clamp(p.y+e.clientY-old.y,-height*(zoom-1),0)}))}map.set(e.pointerId,{x:e.clientX,y:e.clientY})}} onLostPointerCapture={e=>pointers.current.delete(e.pointerId)} onPointerCancel={e=>pointers.current.delete(e.pointerId)} onPointerUp={e=>pointers.current.delete(e.pointerId)}><div className="page-plane" style={{width:baseWidth||'100%',aspectRatio:ratio,transform:`translate(${pos.x}px,${pos.y}px) scale(${zoom})`}}><img draggable={false} className="fallback" alt="DeWALT DC608 Type 1 exploded assembly with numbered parts" src="/diagrams/dc608.png" style={{left:meta.x*100+'%',top:meta.y*100+'%',width:meta.w*100+'%',height:meta.h*100+'%'}}/><canvas aria-label={`Technical diagram, page ${page}`} ref={canvas} style={{opacity:ready?1:0}}/><div className="overlay" style={{left:meta.x*100+'%',top:meta.y*100+'%',width:meta.w*100+'%',height:meta.h*100+'%'}}><InteractiveHotspotLayer active={active} all={all} select={select}/></div></div>{active!==null&&<FigureProductPopover point={points[active]} location={loc} close={close} add={add} show={p=>{setActive(null);show(p)}}/>}</div>{error&&<small role="status">PDF preview unavailable. Showing the cached diagram image.</small>}</div></div>}
+"use client";
+import { useEffect, useRef, useState } from "react";
+import type { PDFDocumentProxy, RenderTask } from "pdfjs-dist";
+import { Info, Minus, Plus, Maximize, X, ChevronDown } from "lucide-react";
+import points from "@/lib/hotspots.json";
+import sheets from "@/lib/pages.json";
+import products from "@/lib/catalog.json";
+import { money, type Part } from "./catalog-shell";
+import { Stock, Buy } from "./parts-list";
+import { ProductDetails } from "./product-details";
+type Point = (typeof points)[number];
+type Actions = { add: (p: Part) => void; show: (p: Part) => void };
+const tip =
+  "Highlight all interactive figure numbers in the diagram. Select a figure number to view its replacement part.";
+const clamp = (v: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, v));
+export function InteractiveHotspotLayer({
+  active,
+  all,
+  select,
+}: {
+  active: number | null;
+  all: boolean;
+  select: (i: number) => void;
+}) {
+  return (
+    <div className={"hotspots " + (all ? "outlined" : "")}>
+      {points.map((p, i) => (
+        <button
+          key={i}
+          className={"hot " + (i === active ? "selected" : "")}
+          style={{ left: `${p.x * 100}%`, top: `${p.y * 100}%` }}
+          aria-label={`Figure ${p.figure}, view replacement parts`}
+          aria-expanded={i === active}
+          onClick={() => select(i)}
+        />
+      ))}
+    </div>
+  );
+}
+export function MultiplePartSelector({
+  parts,
+  add,
+  show,
+}: { parts: Part[] } & Actions) {
+  return (
+    <>
+      {parts.map((p) => (
+        <div className="match" key={p.sku}>
+          <strong>{p.name}</strong>
+          <div>Part # {p.sku}</div>
+          <div className="cost">
+            <Stock p={p} />
+            <b>{money(p.price)}</b>
+          </div>
+          <Buy p={p} add={add} />
+          <ProductDetails p={p} add={add} />
+          <button className="text-link" onClick={() => show(p)}>
+            Show in parts list
+          </button>
+        </div>
+      ))}
+    </>
+  );
+}
+export function FigureProductPopover({
+  point,
+  close,
+  add,
+  show,
+  location,
+}: {
+  point: Point;
+  close: () => void;
+  location: { x: number; y: number };
+} & Actions) {
+  const matches = products.filter((p) => point.productIds.includes(p.sku));
+  return (
+    <div
+      className="figure-card"
+      style={{ left: location.x, top: location.y }}
+      role="dialog"
+      aria-label={`Figure ${point.figure} details`}
+    >
+      <div className="pop-title">
+        <b>
+          Figure {point.figure}
+          {matches.length > 1 ? " — Multiple Matching Parts" : ""}
+        </b>
+        <button onClick={close} aria-label="Dismiss part details" autoFocus>
+          <X size={15} />
+        </button>
+      </div>
+      {(point.figure === 4 || matches.length > 1) && (
+        <small className="fixture-note">
+          Demo match · Verify against the manufacturer PDF.
+        </small>
+      )}
+      <MultiplePartSelector parts={matches} add={add} show={show} />
+    </div>
+  );
+}
+export function DiagramPageNavigation({
+  page,
+  set,
+}: {
+  page: number;
+  set: (page: number) => void;
+}) {
+  return (
+    <nav className="thumbs" aria-label="Diagram pages">
+      {sheets.map((_, i) => (
+        <button
+          key={i}
+          onClick={() => set(i + 1)}
+          aria-label={`Diagram page ${i + 1}`}
+          aria-current={page === i + 1 ? "page" : undefined}
+        >
+          <img src={`/diagrams/thumb-${i + 1}.png`} alt="" />
+          <b>{i + 1}</b>
+        </button>
+      ))}
+    </nav>
+  );
+}
+export function ViewerControls({
+  all,
+  toggle,
+  adjust,
+  fit,
+  full,
+}: {
+  all: boolean;
+  toggle: () => void;
+  adjust: (n: number) => void;
+  fit: (s: string) => void;
+  full: () => void;
+}) {
+  const [menu, setMenu] = useState(false);
+  return (
+    <div className="viewer-tools">
+      <label>
+        <input type="checkbox" checked={all} onChange={toggle} />
+        Highlight clickable parts
+      </label>
+      <span className="info">
+        <button aria-label={tip}>
+          <Info size={15} />
+        </button>
+        <span role="tooltip">{tip}</span>
+      </span>
+      <div className="zoom-controls">
+        <button aria-label="Zoom out" onClick={() => adjust(-0.25)}>
+          <Minus size={14} />
+        </button>
+        <button aria-expanded={menu} onClick={() => setMenu(!menu)}>
+          Fit<span className="wide-label"> to View</span>
+          <ChevronDown size={11} />
+        </button>
+        <button aria-label="Zoom in" onClick={() => adjust(0.25)}>
+          <Plus size={14} />
+        </button>
+        {menu && (
+          <div className="fit-menu">
+            {["Fit to Width", "Fit to Page", "Fullscreen"].map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  setMenu(false);
+                  if (s === "Fullscreen") full();
+                  else fit(s);
+                }}
+              >
+                {s === "Fullscreen" && <Maximize size={13} />} {s}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+export function ResponsivePDFViewer({
+  demo,
+  add,
+  show,
+}: { demo: boolean } & Actions) {
+  const [doc, setDoc] = useState<PDFDocumentProxy | null>(null),
+    [page, setPage] = useState(1),
+    [dim, setDim] = useState({ w: 700, h: 778 }),
+    [ready, setReady] = useState(false),
+    [error, setError] = useState(false),
+    [all, setAll] = useState(false),
+    [active, setActive] = useState<number | null>(null),
+    [zoom, setZoom] = useState(1),
+    [pos, setPos] = useState({ x: 0, y: 0 }),
+    [width, setWidth] = useState(0),
+    [mode, setMode] = useState("Fit to Width"),
+    [screen, setScreen] = useState(false),
+    [vh, setVh] = useState(800),
+    [loc, setLoc] = useState({ x: 8, y: 8 });
+  const frame = useRef<HTMLDivElement>(null),
+    root = useRef<HTMLDivElement>(null),
+    canvas = useRef<HTMLCanvasElement>(null),
+    pointers = useRef(new Map<number, { x: number; y: number }>()),
+    lastFocus = useRef<HTMLElement | null>(null);
+  const meta = demo ? sheets[page - 1] : { x: 0, y: 0, w: 1, h: 1 };
+  const ratio = dim.w / dim.h;
+  const baseWidth =
+    mode === "Fit to Page" ? Math.min(width, (vh - 120) * ratio) : width;
+  const height = baseWidth / ratio;
+  useEffect(() => {
+    let stopped = false;
+    let task: ReturnType<typeof import("pdfjs-dist").getDocument> | undefined;
+    setDoc(null);
+    setPage(1);
+    setReady(false);
+    setError(false);
+    setActive(null);
+    setZoom(1);
+    setPos({ x: 0, y: 0 });
+    setDim(
+      demo ? { w: sheets[0].width, h: sheets[0].height } : { w: 700, h: 778 },
+    );
+    import("pdfjs-dist")
+      .then(async (pdf) => {
+        if (stopped) return;
+        pdf.GlobalWorkerOptions.workerSrc = "/diagrams/pdf.worker.min.mjs";
+        task = pdf.getDocument({
+          url: `/diagrams/${demo ? "demo" : "diagram"}.pdf`,
+          isEvalSupported: false,
+        });
+        const d = await task.promise;
+        if (!stopped) setDoc(d);
+      })
+      .catch(() => {
+        if (!stopped) setError(true);
+      });
+    return () => {
+      stopped = true;
+      void task?.destroy();
+    };
+  }, [demo]);
+  useEffect(() => {
+    const el = frame.current;
+    if (!el) return;
+    const resize = () => {
+      setWidth(el.clientWidth);
+      setVh(window.innerHeight);
+      setActive(null);
+      setPos({ x: 0, y: 0 });
+    };
+    const ro = new ResizeObserver(resize);
+    ro.observe(el);
+    window.addEventListener("resize", resize);
+    const fs = () => {
+      setScreen(Boolean(document.fullscreenElement));
+      resize();
+    };
+    document.addEventListener("fullscreenchange", fs);
+    resize();
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("fullscreenchange", fs);
+    };
+  }, []);
+  useEffect(() => {
+    if (!doc || !baseWidth || !canvas.current) return;
+    let stopped = false;
+    let task: RenderTask | undefined;
+    const el = canvas.current;
+    doc
+      .getPage(page)
+      .then(async (p) => {
+        if (stopped) return;
+        const v = p.getViewport({ scale: 1, rotation: p.rotate });
+        setDim((s) =>
+          s.w === v.width && s.h === v.height ? s : { w: v.width, h: v.height },
+        );
+        const factor = Math.min(
+          (baseWidth * zoom * (window.devicePixelRatio || 1)) / v.width,
+          4500 / Math.max(v.width, v.height),
+        );
+        const view = p.getViewport({ scale: factor, rotation: p.rotate });
+        const buffer = document.createElement("canvas");
+        buffer.width = Math.ceil(view.width);
+        buffer.height = Math.ceil(view.height);
+        task = p.render({ canvas: buffer, viewport: view });
+        await task.promise;
+        if (stopped) return;
+        el.width = buffer.width;
+        el.height = buffer.height;
+        el.getContext("2d")?.drawImage(buffer, 0, 0);
+        setReady(true);
+        setError(false);
+      })
+      .catch((e) => {
+        if (!stopped && e.name !== "RenderingCancelledException") {
+          setReady(false);
+          setError(true);
+        }
+      });
+    return () => {
+      stopped = true;
+      task?.cancel();
+    };
+  }, [doc, page, baseWidth, zoom]);
+  function close() {
+    setActive(null);
+    lastFocus.current?.focus({ preventScroll: true });
+  }
+  useEffect(() => {
+    if (active === null) return;
+    const outside = (e: PointerEvent) => {
+      if (!(e.target as Element).closest(".figure-card,.hot")) setActive(null);
+    };
+    const esc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !document.querySelector("dialog:modal")) close();
+    };
+    document.addEventListener("pointerdown", outside);
+    document.addEventListener("keydown", esc);
+    return () => {
+      document.removeEventListener("pointerdown", outside);
+      document.removeEventListener("keydown", esc);
+    };
+  }, [active]);
+  function reset() {
+    setActive(null);
+    setZoom(1);
+    setPos({ x: 0, y: 0 });
+  }
+  function setScale(n: number) {
+    setActive(null);
+    const z = clamp(n, 1, 4);
+    setZoom(z);
+    setPos((p) => ({
+      x: clamp(p.x, -baseWidth * (z - 1), 0),
+      y: clamp(p.y, -height * (z - 1), 0),
+    }));
+  }
+  function select(i: number) {
+    const el = frame.current!;
+    const b = el.getBoundingClientRect();
+    const target = el.querySelectorAll<HTMLButtonElement>(".hot")[i];
+    lastFocus.current = target;
+    const t = target.getBoundingClientRect();
+    const h = points[i].productIds.length > 1 ? 410 : 212;
+    setLoc({
+      x: clamp(t.right - b.left + 6, 6, el.clientWidth - 236),
+      y: clamp(
+        t.bottom - b.top + 4,
+        Math.max(6, -b.top + 8),
+        Math.min(el.clientHeight - h - 6, window.innerHeight - b.top - h - 8),
+      ),
+    });
+    setActive(i);
+  }
+  return (
+    <div className={"viewer " + (screen ? "fullscreen" : "")} ref={root}>
+      {demo && (
+        <DiagramPageNavigation
+          page={page}
+          set={(n) => {
+            setReady(false);
+            setPage(n);
+            setDim({ w: sheets[n - 1].width, h: sheets[n - 1].height });
+            reset();
+          }}
+        />
+      )}
+      <div className="viewer-main">
+        <ViewerControls
+          all={all}
+          toggle={() => setAll(!all)}
+          adjust={(n) => setScale(zoom + n)}
+          fit={(s) => {
+            setMode(s);
+            reset();
+          }}
+          full={() => {
+            if (document.fullscreenElement) void document.exitFullscreen();
+            else if (root.current?.requestFullscreen)
+              void root.current
+                .requestFullscreen()
+                .catch(() => setScreen(!screen));
+            else setScreen(!screen);
+          }}
+        />
+        <div
+          className="diagram-frame"
+          ref={frame}
+          style={{
+            width: "100%",
+            height: width ? height : undefined,
+            aspectRatio: ratio,
+            touchAction: "none",
+          }}
+          onPointerDown={(e) => {
+            if ((e.target as Element).closest("button,.figure-card")) return;
+            pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }}
+          onPointerMove={(e) => {
+            const map = pointers.current;
+            const old = map.get(e.pointerId);
+            if (!old) return;
+            const other = [...map].find(([id]) => id !== e.pointerId)?.[1];
+            if (other) {
+              const dist = Math.hypot(old.x - other.x, old.y - other.y);
+              if (dist)
+                setScale(
+                  (zoom *
+                    Math.hypot(e.clientX - other.x, e.clientY - other.y)) /
+                    dist,
+                );
+            } else if (zoom > 1) {
+              setPos((p) => ({
+                x: clamp(p.x + e.clientX - old.x, -baseWidth * (zoom - 1), 0),
+                y: clamp(p.y + e.clientY - old.y, -height * (zoom - 1), 0),
+              }));
+            }
+            map.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          }}
+          onLostPointerCapture={(e) => pointers.current.delete(e.pointerId)}
+          onPointerCancel={(e) => pointers.current.delete(e.pointerId)}
+          onPointerUp={(e) => pointers.current.delete(e.pointerId)}
+        >
+          <div
+            className="page-plane"
+            style={{
+              width: baseWidth || "100%",
+              aspectRatio: ratio,
+              transform: `translate(${pos.x}px,${pos.y}px) scale(${zoom})`,
+            }}
+          >
+            <img
+              draggable={false}
+              className="fallback"
+              alt="DeWALT DC608 Type 1 exploded assembly with numbered parts"
+              src="/diagrams/dc608.png"
+              style={{
+                left: meta.x * 100 + "%",
+                top: meta.y * 100 + "%",
+                width: meta.w * 100 + "%",
+                height: meta.h * 100 + "%",
+              }}
+            />
+            <canvas
+              aria-label={`Technical diagram, page ${page}`}
+              ref={canvas}
+              style={{ opacity: ready ? 1 : 0 }}
+            />
+            <div
+              className="overlay"
+              style={{
+                left: meta.x * 100 + "%",
+                top: meta.y * 100 + "%",
+                width: meta.w * 100 + "%",
+                height: meta.h * 100 + "%",
+              }}
+            >
+              <InteractiveHotspotLayer
+                active={active}
+                all={all}
+                select={select}
+              />
+            </div>
+          </div>
+          {active !== null && (
+            <FigureProductPopover
+              point={points[active]}
+              location={loc}
+              close={close}
+              add={add}
+              show={(p) => {
+                setActive(null);
+                show(p);
+              }}
+            />
+          )}
+        </div>
+        {error && (
+          <small role="status">
+            PDF preview unavailable. Showing the cached diagram image.
+          </small>
+        )}
+      </div>
+    </div>
+  );
+}
