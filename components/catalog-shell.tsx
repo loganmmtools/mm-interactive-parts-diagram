@@ -1,12 +1,222 @@
-'use client'
-import {useState} from 'react'
-import {ChevronDown,ChevronLeft,ChevronRight,ExternalLink,FileText,Menu,MousePointerClick,Search,ShieldCheck,ShoppingCart,X} from 'lucide-react'
-import products from '@/lib/catalog.json'
-export type Part=typeof products[number]
-export const money=(n:number)=>`$${n.toFixed(2)}`
-const source='https://2f50f72512.nxcli.io'
-const links=[['Tool parts','/tool-parts'],['Tools','/tools'],['Brands','/brands'],['Shop new tools','/tools']]
-export function Header({count,openCart,show}:{count:number;openCart:()=>void;show:(p:Part)=>void}){const [menu,setMenu]=useState(''),[q,setQ]=useState('');const results=products.filter(p=>(p.sku+' '+p.name).toLowerCase().includes(q.trim().toLowerCase())).slice(0,5);return <header><div className="mast"><a className="brand" href="/" aria-label="mmToolParts model catalog"><img src="/gear.png" alt=""/><span><b>mmToolParts</b><small>OEM Parts • Authorized Dealer • Since 1939</small></span></a><div className="global"><input type="search" aria-label="Search model catalog" placeholder="Search by model, tool or part number (e.g. 6472028, N515802, 0601024034)" value={q} onKeyDown={e=>{if(e.key==='Escape')setQ('')}} onChange={e=>setQ(e.target.value)}/><Search size={17}/>{q.trim()&&<div className="global-results"><strong>Catalog search</strong>{/dc608|nailer|dewalt/i.test(q)&&<button onClick={()=>{setQ('');window.scrollTo(0,0)}}>DeWALT DC608 Type 1 · Model parts</button>}{results.map(p=><button key={p.sku} onClick={()=>{setQ('');show(p)}}>{p.name}<small>{p.sku}</small></button>)}{!results.length&&!/dc608|nailer|dewalt/i.test(q)&&<p>No matching models or parts.</p>}</div>}</div><button className="cart-icon" aria-label={`Shopping cart, ${count} items`} onClick={openCart}><ShoppingCart fill="currentColor"/>{count>0&&<sup>{count}</sup>}</button><button className="mob-menu" onClick={()=>setMenu(menu?'':'Catalog')} aria-expanded={!!menu} aria-label="Catalog menu">{menu?<X/>:<Menu/>}</button></div><nav className="nav">{links.map(([n,u],i)=>i<2?<button key={n} onClick={()=>setMenu(menu===n?'':n)} aria-expanded={menu===n}>{n}<ChevronDown size={15}/></button>:<a key={n} href={source+u}>{n}</a>)}</nav>{menu&&<div className="nav-pop"><b>{menu}</b><a href={source+'/tool-parts/dewalt-parts/dewalt-nailer-parts'}>DeWALT Nailer Parts</a><a href={source+'/tool-parts'}>Browse all tool parts</a><a href={source+'/tools'}>Shop new tools</a><button onClick={()=>setMenu('')}>Close menu</button></div>}</header>}
-export function Heading(){const crumbs=[['Home','/'],['Tool parts','/tool-parts'],['DeWALT Parts','/tool-parts/dewalt-parts'],['DeWALT Nailer Parts','/tool-parts/dewalt-parts/dewalt-nailer-parts']];return <><nav className="crumbs" aria-label="Breadcrumb">{crumbs.map(([n,u])=><span key={n}><a href={source+u}>{n}</a><ChevronRight size={12}/></span>)}<b>DeWALT DC608 Cordless Nailer Parts</b></nav><a className="back" href={source+crumbs[3][1]}><ChevronLeft size={17}/>DeWALT Nailer Parts</a><h1>DEWALT DC608 <span>CORDLESS NAILER PARTS</span></h1></>}
-export function FullDiagramCTA({demo}:{demo:boolean}){return <section className="document"><a className="pdf-link" href={'/diagrams/'+(demo?'demo':'manufacturer')+'.pdf'} target="_blank" rel="noopener noreferrer"><FileText/><b>View Full Diagram &amp; Parts List</b><ExternalLink size={17}/></a><p>View a larger, detailed diagram with a complete itemized parts list. Opens in a new tab for easy viewing, printing or downloading.</p></section>}
-export function PartIdentificationGuide(){return <section className="guide"><h2>How to Find Your Part</h2><ol>{[<span>Locate your part in the diagram.</span>,<span><b><span className="mouse">Click</span><span className="touch">Tap</span> its figure number</b> to view the corresponding replacement part.</span>,<span><b>Verify your exact Make/Model/Type Number</b> before ordering.</span>].map((t,i)=>{const Icon=[Search,MousePointerClick,ShieldCheck][i];return <li key={i}><strong>{i+1}</strong><Icon/>{t}</li>})}</ol></section>}
+"use client";
+import { useState } from "react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  FileText,
+  Menu,
+  MousePointerClick,
+  Search,
+  ShieldCheck,
+  ShoppingCart,
+  X,
+} from "lucide-react";
+import products from "@/lib/catalog.json";
+export type Part = (typeof products)[number];
+export const money = (n: number) => `$${n.toFixed(2)}`;
+const source = "https://2f50f72512.nxcli.io";
+const links = [
+  ["Tool parts", "/tool-parts"],
+  ["Tools", "/tools"],
+  ["Brands", "/brands"],
+  ["Shop new tools", "/tools"],
+];
+export function Header({
+  count,
+  openCart,
+  show,
+}: {
+  count: number;
+  openCart: () => void;
+  show: (p: Part) => void;
+}) {
+  const [menu, setMenu] = useState(""),
+    [q, setQ] = useState("");
+  const results = products
+    .filter((p) =>
+      (p.sku + " " + p.name).toLowerCase().includes(q.trim().toLowerCase()),
+    )
+    .slice(0, 5);
+  return (
+    <header>
+      <div className="mast">
+        <a className="brand" href="/" aria-label="mmToolParts model catalog">
+          <img src="/gear.png" alt="" />
+          <span>
+            <b>mmToolParts</b>
+            <small>OEM Parts • Authorized Dealer • Since 1939</small>
+          </span>
+        </a>
+        <div className="global">
+          <input
+            type="search"
+            aria-label="Search model catalog"
+            placeholder="Search by model, tool or part number (e.g. 6472028, N515802, 0601024034)"
+            value={q}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setQ("");
+            }}
+            onChange={(e) => setQ(e.target.value)}
+          />
+          <Search size={17} />
+          {q.trim() && (
+            <div className="global-results">
+              <strong>Catalog search</strong>
+              {/dc608|nailer|dewalt/i.test(q) && (
+                <button
+                  onClick={() => {
+                    setQ("");
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  DeWALT DC608 Type 1 · Model parts
+                </button>
+              )}
+              {results.map((p) => (
+                <button
+                  key={p.sku}
+                  onClick={() => {
+                    setQ("");
+                    show(p);
+                  }}
+                >
+                  {p.name}
+                  <small>{p.sku}</small>
+                </button>
+              ))}
+              {!results.length && !/dc608|nailer|dewalt/i.test(q) && (
+                <p>No matching models or parts.</p>
+              )}
+            </div>
+          )}
+        </div>
+        <button
+          className="cart-icon"
+          aria-label={`Shopping cart, ${count} items`}
+          onClick={openCart}
+        >
+          <ShoppingCart fill="currentColor" />
+          {count > 0 && <sup>{count}</sup>}
+        </button>
+        <button
+          className="mob-menu"
+          onClick={() => setMenu(menu ? "" : "Catalog")}
+          aria-expanded={!!menu}
+          aria-label="Catalog menu"
+        >
+          {menu ? <X /> : <Menu />}
+        </button>
+      </div>
+      <nav className="nav">
+        {links.map(([n, u], i) =>
+          i < 2 ? (
+            <button
+              key={n}
+              onClick={() => setMenu(menu === n ? "" : n)}
+              aria-expanded={menu === n}
+            >
+              {n}
+              <ChevronDown size={15} />
+            </button>
+          ) : (
+            <a key={n} href={source + u}>
+              {n}
+            </a>
+          ),
+        )}
+      </nav>
+      {menu && (
+        <div className="nav-pop">
+          <b>{menu}</b>
+          <a href={source + "/tool-parts/dewalt-parts/dewalt-nailer-parts"}>
+            DeWALT Nailer Parts
+          </a>
+          <a href={source + "/tool-parts"}>Browse all tool parts</a>
+          <a href={source + "/tools"}>Shop new tools</a>
+          <button onClick={() => setMenu("")}>Close menu</button>
+        </div>
+      )}
+    </header>
+  );
+}
+export function Heading() {
+  const crumbs = [
+    ["Home", "/"],
+    ["Tool parts", "/tool-parts"],
+    ["DeWALT Parts", "/tool-parts/dewalt-parts"],
+    ["DeWALT Nailer Parts", "/tool-parts/dewalt-parts/dewalt-nailer-parts"],
+  ];
+  return (
+    <>
+      <nav className="crumbs" aria-label="Breadcrumb">
+        {crumbs.map(([n, u]) => (
+          <span key={n}>
+            <a href={source + u}>{n}</a>
+            <ChevronRight size={12} />
+          </span>
+        ))}
+        <b>DeWALT DC608 Cordless Nailer Parts</b>
+      </nav>
+      <a className="back" href={source + crumbs[3][1]}>
+        <ChevronLeft size={17} />
+        DeWALT Nailer Parts
+      </a>
+      <h1>
+        DEWALT DC608 <span>CORDLESS NAILER PARTS</span>
+      </h1>
+    </>
+  );
+}
+export function FullDiagramCTA({ demo }: { demo: boolean }) {
+  return (
+    <section className="document">
+      <a
+        className="pdf-link"
+        href={"/diagrams/" + (demo ? "demo" : "manufacturer") + ".pdf"}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FileText />
+        <b>View Full Diagram &amp; Parts List</b>
+        <ExternalLink size={17} />
+      </a>
+      <p>
+        View a larger, detailed diagram with a complete itemized parts list.
+        Opens in a new tab for easy viewing, printing or downloading.
+      </p>
+    </section>
+  );
+}
+export function PartIdentificationGuide() {
+  return (
+    <section className="guide">
+      <h2>How to Find Your Part</h2>
+      <ol>
+        {[
+          <span>Locate your part in the diagram.</span>,
+          <span>
+            <b>
+              <span className="mouse">Click</span>
+              <span className="touch">Tap</span> its figure number
+            </b>{" "}
+            to view the corresponding replacement part.
+          </span>,
+          <span>
+            <b>Verify your exact Make/Model/Type Number</b> before ordering.
+          </span>,
+        ].map((t, i) => {
+          const Icon = [Search, MousePointerClick, ShieldCheck][i];
+          return (
+            <li key={i}>
+              <strong>{i + 1}</strong>
+              <Icon />
+              {t}
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
